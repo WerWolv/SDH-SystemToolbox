@@ -5,6 +5,6 @@
   "publish": {
     "tags": [ "tools", "services", "kernel", "root" ],
     "description": "Helpful tools to control various settings of the Steam Deck",
-    "image": "https://opengraph.githubassets.com/1/SteamDeckHomebrew/PluginLoader"
+    "image": "https://raw.githubusercontent.com/WerWolv/SDH-SystemToolbox/main/assets/screenshot.jpg"
   }
 }
