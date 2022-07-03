@@ -1,10 +1,10 @@
 {
-  "name": "Example Plugin",
-  "author": "John Doe",
-  "flags": ["debug", "_root"],
+  "name": "System Toolbox",
+  "author": "WerWolv",
+  "flags": [ "root" ],
   "publish": {
-    "tags": ["template", "root"],
-    "description": "Decky example plugin.",
+    "tags": [ "tools", "services", "kernel", "root" ],
+    "description": "Helpful tools to control various settings of the Steam Deck",
     "image": "https://opengraph.githubassets.com/1/SteamDeckHomebrew/PluginLoader"
   }
 }
