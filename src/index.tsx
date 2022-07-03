@@ -4,7 +4,7 @@ import {
     PanelSectionRow,
     ServerAPI,
     staticClasses,
-    Toggle,
+    ToggleField,
 } from "decky-frontend-lib";
 import { VFC, useState } from "react";
 import { FaToolbox } from "react-icons/fa";
@@ -26,7 +26,7 @@ const Content: VFC<{ server: ServerAPI }> = ({server}) => {
         <PanelSection>
             <PanelSection title="Services">
                 <PanelSectionRow>
-                    <Toggle
+                    <ToggleField
                         label="Remote Terminal Access"
                         description="Gives access to the Deck over SSH"
                         checked={sshServerToggleValue}
@@ -38,7 +38,7 @@ const Content: VFC<{ server: ServerAPI }> = ({server}) => {
                 </PanelSectionRow>
 
                 <PanelSectionRow>
-                    <Toggle
+                    <ToggleField
                         label="Remote Debugging Access"
                         description="Forwards the Steam CEF debugger"
                         checked={cefServerToggleValue}
@@ -51,7 +51,7 @@ const Content: VFC<{ server: ServerAPI }> = ({server}) => {
             </PanelSection>
             <PanelSection title="Settings">
                 <PanelSectionRow>
-                    <Toggle
+                    <ToggleField
                         label="Linux Huge Pages"
                         description="Enables Kernel Huge Pages support"
                         checked={largePagesToggleValue}
