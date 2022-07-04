@@ -1,5 +1,5 @@
 {
-  "name": "SDH-SystemToolbox",
+  "name": "system-toolbox",
   "version": "v1.0.0",
   "description": "A Decky plugin for the Steam Deck containing various settings useful for tinkerers",
   "scripts": {
