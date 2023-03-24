@@ -1,8 +1,9 @@
-import { ServerAPI } from "decky-frontend-lib"
+import { ServerAPI, ServerResponse } from "decky-frontend-lib"
 
 var server: ServerAPI | undefined = undefined;
+type ServerResponsePromise<T> = Promise<ServerResponse<T>>;
 
-export function resolvePromise(promise: Promise<any>, callback: any) {
+export function resolvePromise<T>(promise: ServerResponsePromise<T>, callback: (value: T) => any) {
     (async function () {
         let data = await promise;
         if (data.success)
@@ -21,28 +22,37 @@ export function setServer(s: ServerAPI) {
 }
 
 
-export function setSSHServerState(state: boolean) : Promise<any> {
+export function setSSHServerState(state: boolean) : ServerResponsePromise<boolean> {
     return server!.callPluginMethod("set_ssh_server_state", { "state": state });
 }
 
-export function getSSHServerState(): Promise<any> {
+export function getSSHServerState(): ServerResponsePromise<boolean> {
     return server!.callPluginMethod("get_ssh_server_state", {});
 }
 
 
-export function setCEFServerState(state: boolean) : Promise<any> {
+export function setCEFServerState(state: boolean) : ServerResponsePromise<boolean> {
     return server!.callPluginMethod("set_cef_debugger_forwarder_state", { "state": state });
 }
 
-export function getCEFServerState(): Promise<any> {
+export function getCEFServerState(): ServerResponsePromise<boolean> {
     return server!.callPluginMethod("get_cef_debugger_forwarder_state", {});
 }
 
 
-export function setHugePagesState(state: boolean) : Promise<any> {
+export function setHugePagesState(state: boolean) : ServerResponsePromise<boolean> {
     return server!.callPluginMethod("set_huge_pages_state", { "state": state });
 }
 
-export function getHugePagesState(): Promise<any> {
+export function getHugePagesState(): ServerResponsePromise<boolean> {
     return server!.callPluginMethod("get_huge_pages_state", {});
+}
+
+
+export function setRefreshRateOverride(lower: number, upper: number) : ServerResponsePromise<"" | [number, number]> {
+    return server!.callPluginMethod("set_gamescope_refresh_rate_range", { lower, upper }) as any;
+}
+
+export function getRefreshRateOverride(): ServerResponsePromise<"" | [number, number]> {
+    return server!.callPluginMethod("get_gamescope_refresh_rate_range", {}) as any;
 }
