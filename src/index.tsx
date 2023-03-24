@@ -6,7 +6,7 @@ import {
     staticClasses,
     ToggleField,
 } from "decky-frontend-lib";
-import { VFC, useState } from "react";
+import { VFC, useState, useEffect } from "react";
 import { FaToolbox } from "react-icons/fa";
 
 import * as backend from "./backend"
@@ -18,9 +18,11 @@ const Content: VFC<{ server: ServerAPI }> = ({server}) => {
     const [cefServerToggleValue, setCefServerToggleState]   = useState<boolean>(false);
     const [largePagesToggleValue, setLargePagesToggleState] = useState<boolean>(false);
 
-    backend.resolvePromise(backend.getSSHServerState(), setSshServerToggleState);
-    backend.resolvePromise(backend.getCEFServerState(), setCefServerToggleState);
-    backend.resolvePromise(backend.getHugePagesState(), setLargePagesToggleState);
+    useEffect(() => {
+        backend.resolvePromise(backend.getSSHServerState(), setSshServerToggleState);
+        backend.resolvePromise(backend.getCEFServerState(), setCefServerToggleState);
+        backend.resolvePromise(backend.getHugePagesState(), setLargePagesToggleState);
+    }, []);
 
     return (
         <PanelSection>
