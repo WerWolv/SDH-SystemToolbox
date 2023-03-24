@@ -47,3 +47,12 @@ export function setHugePagesState(state: boolean) : ServerResponsePromise<boolea
 export function getHugePagesState(): ServerResponsePromise<boolean> {
     return server!.callPluginMethod("get_huge_pages_state", {});
 }
+
+
+export function setRefreshRateOverride(lower: number, upper: number) : ServerResponsePromise<"" | [number, number]> {
+    return server!.callPluginMethod("set_gamescope_refresh_rate_range", { lower, upper }) as any;
+}
+
+export function getRefreshRateOverride(): ServerResponsePromise<"" | [number, number]> {
+    return server!.callPluginMethod("get_gamescope_refresh_rate_range", {}) as any;
+}

@@ -1,8 +1,32 @@
 import subprocess
+from contextlib import contextmanager
+
+_refresh_limits_prefix = "export STEAM_DISPLAY_REFRESH_LIMITS="
+
+@contextmanager
+def _writable_root():
+    """
+    Creates a context where the SteamOS system files are writable.
+
+    If the system partition was previously read-only, it will be returned to
+    being read-only after this context is exited.
+
+    Note: Requires root to work.
+    """
+    needs_disable = False
+    status = subprocess.Popen(["steamos-readonly", "status"], stdout=subprocess.PIPE).communicate()[0].strip()
+    if status != "enabled":
+        needs_disable = True
+        subprocess.Popen(["steamos-readonly", "disable"]).wait()
+    try:
+        yield
+    finally:
+        if needs_disable:
+            subprocess.Popen(["steamos-readonly", "enable"]).wait()
 
 class Plugin:
 
-    ### Helpers
+    ### Helperswith context
 
     def _get_service_state(self, service):
         return subprocess.Popen(f"systemctl is-active {service}", stdout=subprocess.PIPE, shell=True).communicate()[0] == b'active\n'
@@ -14,7 +38,6 @@ class Plugin:
             subprocess.Popen(f"systemctl disable --now {service}", stdout=subprocess.PIPE, shell=True).wait()
 
         return self._get_service_state(self, service)
-
 
     ### SSH Server
 
@@ -49,6 +72,37 @@ class Plugin:
                 f.write("madvise")
 
         return await self.get_huge_pages_state(self)
+
+    ### SteamOS GameScope Refresh Rate Override
+
+    async def get_gamescope_refresh_rate_range(self):
+        try:
+            with open("/usr/bin/gamescope-session", "r") as f:
+                for line in f:
+                    if line.startswith(_refresh_limits_prefix):
+                        refresh_limits = line[len(_refresh_limits_prefix):].strip().split(",")
+                        return [int(s) for s in refresh_limits]
+        except Exception:
+            pass
+
+        return ""
+
+    async def set_gamescope_refresh_rate_range(self, lower, upper):
+        gamescope_session_script_lines = None
+
+        # Read the script.
+        with open("/usr/bin/gamescope-session", "r") as f:
+            gamescope_session_script_lines = f.readlines()
+
+        # Write it back with the modified line.
+        with _writable_root():
+            with open("/usr/bin/gamescope-session", "w") as f:
+                for line in gamescope_session_script_lines:
+                    if line.startswith(_refresh_limits_prefix):
+                        line = f"{_refresh_limits_prefix}{lower},{upper}\n"
+                    f.write(line)
+
+        return await self.get_gamescope_refresh_rate_range()
 
 
     ### Main
