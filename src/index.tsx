@@ -10,7 +10,8 @@ import { VFC, useState } from "react";
 import { FaToolbox } from "react-icons/fa";
 
 import * as backend from "./backend"
- 
+import {networkInterfaces} from 'os';
+
 const Content: VFC<{ server: ServerAPI }> = ({server}) => {
     backend.setServer(server);
 
@@ -28,7 +29,7 @@ const Content: VFC<{ server: ServerAPI }> = ({server}) => {
                 <PanelSectionRow>
                     <ToggleField
                         label="Remote Terminal Access"
-                        description="Gives access to the Deck over SSH"
+                        description={"Gives access to the Deck over SSH via " + localIpAddress()}
                         checked={sshServerToggleValue}
                         onChange={(value: boolean) => {
                             backend.setSSHServerState(value);
@@ -65,6 +66,21 @@ const Content: VFC<{ server: ServerAPI }> = ({server}) => {
         </PanelSection>
     );
 };
+
+function localIpAddress () {
+    const interfaces = Object.values(networkInterfaces())
+    for (let iface of interfaces) {
+        for (let alias of iface!) {
+            if (alias.family === "IPv4"
+             && alias.address !== "127.0.0.1"
+             && !alias.internal) {
+                return alias.address
+            }
+        }
+    }
+
+    return "0.0.0.0"
+}
 
 export default definePlugin((serverApi: ServerAPI) => {
     return {
