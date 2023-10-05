@@ -15,10 +15,12 @@ const Content: VFC<{ server: ServerAPI }> = ({server}) => {
     backend.setServer(server);
 
     const [sshServerToggleValue, setSshServerToggleState]   = useState<boolean>(false);
+    const [avahiServerToggleValue, setAvahiServerToggleState]   = useState<boolean>(false);
     const [cefServerToggleValue, setCefServerToggleState]   = useState<boolean>(false);
     const [largePagesToggleValue, setLargePagesToggleState] = useState<boolean>(false);
 
     backend.resolvePromise(backend.getSSHServerState(), setSshServerToggleState);
+    backend.resolvePromise(backend.getAvahiServerState(), setAvahiServerToggleState);
     backend.resolvePromise(backend.getCEFServerState(), setCefServerToggleState);
     backend.resolvePromise(backend.getHugePagesState(), setLargePagesToggleState);
 
@@ -33,6 +35,18 @@ const Content: VFC<{ server: ServerAPI }> = ({server}) => {
                         onChange={(value: boolean) => {
                             backend.setSSHServerState(value);
                             setSshServerToggleState(value);
+                        }}
+                    />
+                </PanelSectionRow>
+
+                <PanelSectionRow>
+                    <ToggleField
+                        label="Remote Terminal Access"
+                        description="Gives access to the Deck over SSH"
+                        checked={avahiServerToggleValue}
+                        onChange={(value: boolean) => {
+                            backend.setAvahiServerState(value);
+                            setAvahiServerToggleState(value);
                         }}
                     />
                 </PanelSectionRow>

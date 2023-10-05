@@ -24,6 +24,14 @@ class Plugin:
     async def set_ssh_server_state(self, state):
         return self._set_service_state(self, "sshd", state)
 
+    ### Avahi Server
+
+    async def get_avahi_server_state(self):
+        return self._get_service_state(self, "avahi-daemon")
+
+    async def set_avahi_server_state(self, state):
+        return self._set_service_state(self, "avahi-daemon", state)
+
 
     ### CEF Debugging Forwarding
 
