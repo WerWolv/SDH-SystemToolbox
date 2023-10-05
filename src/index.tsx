@@ -42,7 +42,7 @@ const Content: VFC<{ server: ServerAPI }> = ({server}) => {
                 <PanelSectionRow>
                     <ToggleField
                         label="Remote Terminal Access"
-                        description="Gives access to the Deck over SSH"
+                        description="Enable Avahi daemon for MDNS"
                         checked={avahiServerToggleValue}
                         onChange={(value: boolean) => {
                             backend.setAvahiServerState(value);
