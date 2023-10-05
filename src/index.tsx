@@ -41,7 +41,7 @@ const Content: VFC<{ server: ServerAPI }> = ({server}) => {
 
                 <PanelSectionRow>
                     <ToggleField
-                        label="Remote Terminal Access"
+                        label="Avahi Daemon / MDNS"
                         description="Enable Avahi daemon for MDNS"
                         checked={avahiServerToggleValue}
                         onChange={(value: boolean) => {
