@@ -29,6 +29,14 @@ export function getSSHServerState(): Promise<any> {
     return server!.callPluginMethod("get_ssh_server_state", {});
 }
 
+export function setAvahiServerState(state: boolean) : Promise<any> {
+    return server!.callPluginMethod("set_avahi_server_state", { "state": state });
+}
+
+export function getAvahiServerState(): Promise<any> {
+    return server!.callPluginMethod("get_avahi_server_state", {});
+}
+
 
 export function setCEFServerState(state: boolean) : Promise<any> {
     return server!.callPluginMethod("set_cef_debugger_forwarder_state", { "state": state });
