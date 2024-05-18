@@ -1,6 +1,6 @@
 {
   "name": "system-toolbox",
-  "version": "v1.0.2",
+  "version": "v1.0.3",
   "description": "A Decky plugin for the Steam Deck containing various settings useful for tinkerers",
   "scripts": {
     "build": "shx rm -rf dist && rollup -c",
